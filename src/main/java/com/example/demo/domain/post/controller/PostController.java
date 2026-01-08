@@ -25,5 +25,15 @@ public class PostController {
     public List<Post> findAll() {
         return postService.findAll();
     }
+
+    @PutMapping("/posts/{id}")
+    public void update(
+            @PathVariable Long id,
+            @RequestParam String title,
+            @RequestParam String content
+    ) {
+        postService.update(id, title, content);
+    }
+
 }
 
