@@ -35,5 +35,9 @@ public class PostController {
         postService.update(id, title, content);
     }
 
+    @DeleteMapping("/posts/{id}")
+    public void delete(@PathVariable Long id){
+        postService.delete(id);
+    }
 }
 
