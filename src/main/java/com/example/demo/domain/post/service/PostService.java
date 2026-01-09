@@ -34,4 +34,8 @@ public class PostService {
         post.update(title, content);
     }
 
+    public void delete(Long id) {
+        postRepository.deleteById(id);
+    }
+
 }
