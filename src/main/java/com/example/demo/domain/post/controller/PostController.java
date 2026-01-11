@@ -5,6 +5,7 @@ import com.example.demo.domain.post.service.PostService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/posts")
@@ -28,7 +29,7 @@ public class PostController {
 
     @PutMapping("/posts/{id}")
     public void update(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @RequestParam String title,
             @RequestParam String content
     ) {
@@ -36,7 +37,7 @@ public class PostController {
     }
 
     @DeleteMapping("/posts/{id}")
-    public void delete(@PathVariable Long id){
+    public void delete(@PathVariable UUID id){
         postService.delete(id);
     }
 }
