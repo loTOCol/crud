@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.beans.Transient;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PostService {
@@ -27,14 +28,14 @@ public class PostService {
     }
 
     @Transactional
-    public void update(Long id, String title, String content) {
+    public void update(UUID id, String title, String content) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("게시글 없음"));
 
         post.update(title, content);
     }
 
-    public void delete(Long id) {
+    public void delete(UUID id) {
         postRepository.deleteById(id);
     }
 
