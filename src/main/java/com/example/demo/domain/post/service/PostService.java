@@ -39,4 +39,9 @@ public class PostService {
         postRepository.deleteById(id);
     }
 
+    // 게시글 단건 조회
+    public Post findById(UUID id) {
+        return postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("게시글 없음"));
+    }
 }
