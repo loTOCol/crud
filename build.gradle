@@ -38,6 +38,9 @@ dependencies {
 
 	runtimeOnly 'com.h2database:h2' //h2 db
 
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
+
 	implementation 'com.mysql:mysql-connector-j:8.4.0'
 }
 

@@ -25,7 +25,8 @@ public class PostController {
     @PostMapping
     public ApiResponse<Void> create(@RequestBody PostCreateRequest request){
         postService.create(request.title(), request.content());
-        return ApiResponse.success();
+        // [수정] success() -> ok()로 변경 (Record 컴포넌트와 충돌 방지)
+        return ApiResponse.ok();
     }
 
 
@@ -55,14 +56,16 @@ public class PostController {
             @RequestBody PostUpdateRequest request
     ) {
         postService.update(id, request.title(), request.content());
-        return ApiResponse.success();
+        // [수정] success() -> ok()로 변경
+        return ApiResponse.ok();
     }
 
 
     @DeleteMapping("/{id}")
     public ApiResponse<Void> delete(@PathVariable UUID id){
         postService.delete(id);
-        return ApiResponse.success();
+        // [수정] success() -> ok()로 변경
+        return ApiResponse.ok();
     }
 
 }
