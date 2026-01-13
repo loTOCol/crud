@@ -11,7 +11,6 @@ build/
 .vscode/
 *.swp
 *.swo
-*~
 
 # OS
 .DS_Store
@@ -21,6 +20,18 @@ Thumbs.db
 *.log
 logs/
 
-# Environment variables
-.env
-.env.local
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentation
+README.md
+HELP.md
+
+# Test
+src/test/
