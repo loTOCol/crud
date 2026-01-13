@@ -1,4 +1,4 @@
-package com.example.demo.domain.post.dto.respone;
+package com.example.demo.domain.post.dto.response;
 
 import com.example.demo.domain.post.entity.Post;
 
