@@ -5,6 +5,7 @@ import com.example.demo.domain.post.dto.request.PostUpdateRequest;
 import com.example.demo.domain.post.dto.response.PostResponse;
 import com.example.demo.domain.post.entity.Post;
 import com.example.demo.domain.post.service.PostService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.global.response.ApiResponse;
 
@@ -23,7 +24,8 @@ public class PostController {
 
     // 게시글 생성
     @PostMapping
-    public ApiResponse<Void> create(@RequestBody PostCreateRequest request){
+    // [수정] @Valid 어노테이션 추가로 validation 활성화
+    public ApiResponse<Void> create(@Valid @RequestBody PostCreateRequest request){
         postService.create(request.title(), request.content());
         // [수정] success() -> ok()로 변경 (Record 컴포넌트와 충돌 방지)
         return ApiResponse.ok();
@@ -51,9 +53,10 @@ public class PostController {
 
 
     @PutMapping("/{id}")
+    // [수정] @Valid 어노테이션 추가로 validation 활성화
     public ApiResponse<Void> update(
             @PathVariable UUID id,
-            @RequestBody PostUpdateRequest request
+            @Valid @RequestBody PostUpdateRequest request
     ) {
         postService.update(id, request.title(), request.content());
         // [수정] success() -> ok()로 변경
