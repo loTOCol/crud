@@ -1,5 +1,7 @@
 package com.example.demo.domain.post.service;
 
+import com.example.demo.domain.post.dto.request.PostCreateRequest;
+import com.example.demo.domain.post.dto.request.PostUpdateRequest;
 import com.example.demo.domain.post.entity.Post;
 import com.example.demo.domain.post.exception.PostNotFoundException;
 import com.example.demo.domain.post.repository.PostRepository;
@@ -18,9 +20,10 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
+    // [수정] 개별 파라미터 대신 DTO를 직접 받도록 변경
     @Transactional
-    public void create(String title, String content) {
-        Post post = new Post(title, content);
+    public void create(PostCreateRequest request) {
+        Post post = new Post(request.title(), request.content());
         postRepository.save(post);
     }
 
@@ -28,12 +31,13 @@ public class PostService {
         return postRepository.findAll();
     }
 
+    // [수정] 개별 파라미터 대신 DTO를 직접 받도록 변경
     @Transactional
-    public void update(UUID id, String title, String content) {
+    public void update(UUID id, PostUpdateRequest request) {
         Post post = postRepository.findById(id)
                 .orElseThrow(PostNotFoundException::new);
 
-        post.update(title, content);
+        post.update(request.title(), request.content());
     }
 
     @Transactional
