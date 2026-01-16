@@ -26,7 +26,8 @@ public class PostController {
     @PostMapping
     // [수정] @Valid 어노테이션 추가로 validation 활성화
     public ApiResponse<Void> create(@Valid @RequestBody PostCreateRequest request){
-        postService.create(request.title(), request.content());
+        // [수정] DTO를 직접 전달하도록 변경
+        postService.create(request);
         // [수정] success() -> ok()로 변경 (Record 컴포넌트와 충돌 방지)
         return ApiResponse.ok();
     }
@@ -58,7 +59,8 @@ public class PostController {
             @PathVariable UUID id,
             @Valid @RequestBody PostUpdateRequest request
     ) {
-        postService.update(id, request.title(), request.content());
+        // [수정] DTO를 직접 전달하도록 변경
+        postService.update(id, request);
         // [수정] success() -> ok()로 변경
         return ApiResponse.ok();
     }
