@@ -6,9 +6,10 @@ import com.example.demo.domain.post.entity.Post;
 import com.example.demo.domain.post.exception.PostNotFoundException;
 import com.example.demo.domain.post.repository.PostRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -27,8 +28,9 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public List<Post> findAll() {
-        return postRepository.findAll();
+    // [수정] 페이징 처리 추가
+    public Page<Post> findAll(Pageable pageable) {
+        return postRepository.findAll(pageable);
     }
 
     // [수정] 개별 파라미터 대신 DTO를 직접 받도록 변경
