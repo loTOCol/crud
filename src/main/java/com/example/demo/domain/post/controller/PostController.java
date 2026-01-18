@@ -6,10 +6,12 @@ import com.example.demo.domain.post.dto.response.PostResponse;
 import com.example.demo.domain.post.entity.Post;
 import com.example.demo.domain.post.service.PostService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.global.response.ApiResponse;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -35,13 +37,14 @@ public class PostController {
 
     // 게시글 조회
     @GetMapping
-    public ApiResponse<List<PostResponse>> findAll() {
-        return ApiResponse.success(
-                postService.findAll()
-                        .stream()
-                        .map(PostResponse::new)
-                        .toList()
-        );
+    // [수정] 페이징 처리 추가 (기본값: size=20, sort=createdAt,desc)
+    public ApiResponse<Page<PostResponse>> findAll(
+            @PageableDefault(size = 20, sort = "createdAt", direction = org.springframework.data.domain.Sort.Direction.DESC) Pageable pageable
+    ) {
+        // [수정] Page<Post>를 Page<PostResponse>로 변환
+        Page<Post> postPage = postService.findAll(pageable);
+        Page<PostResponse> responsePage = postPage.map(PostResponse::new);
+        return ApiResponse.success(responsePage);
     }
 
     // 게시글 단건 조회
