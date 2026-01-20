@@ -12,6 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+// [수정] 상태 코드 지정을 위한 ResponseEntity, HttpStatus 추가
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -31,13 +34,16 @@ public class PostController {
     // 게시글 생성
     @PostMapping
     // [수정] @Valid 어노테이션 추가로 validation 활성화
-    public ApiResponse<Void> create(@Valid @RequestBody PostCreateRequest request){
+    public ResponseEntity<ApiResponse<Void>> create(@Valid @RequestBody PostCreateRequest request){
         // [수정] 생성 요청 로깅
         log.info("Create post request. title={}", request.title());
         // [수정] DTO를 직접 전달하도록 변경
         postService.create(request);
         // [수정] success() -> ok()로 변경 (Record 컴포넌트와 충돌 방지)
-        return ApiResponse.ok();
+        // [수정] HTTP 201 Created로 응답
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ApiResponse.ok());
     }
 
 
