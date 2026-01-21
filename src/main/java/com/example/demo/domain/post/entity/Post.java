@@ -1,8 +1,9 @@
 package com.example.demo.domain.post.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -10,41 +11,62 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-// [수정] JPA Auditing 활성화를 위한 EntityListener 추가
-@EntityListeners(AuditingEntityListener.class)
-@Getter
-@Setter
 @Entity
+@Getter
+//@Setter 엔티티에서 지양
+//@AllArgsConstructor 지양
+@NoArgsConstructor(access = AccessLevel.PROTECTED) //기본 생성자 보호
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "post")
 public class Post {
 
     @Id
-    @GeneratedValue
-    @Column(columnDefinition = "BINARY(16)")
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "post_id", columnDefinition = "BINARY(16)")  // UUID를 MySQL/H2에서 저장할 타입 지정
     private UUID id;
 
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     private String content;
 
-    // [수정] 생성일시 필드 추가 (JPA Auditing으로 자동 관리)
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    // [수정] 수정일시 필드 추가 (JPA Auditing으로 자동 관리)
     @LastModifiedDate
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    protected Post(){
-    }
-
-    public Post(String title, String content) {
+    //팩토리 메서드만 허용
+    private Post (String title, String content){
         this.title = title;
         this.content = content;
     }
 
-    public void update(String title, String content) {
+    //아직 객체가 없는 상태에서 호출되므로 static이어야 함
+    public static Post create(String title, String content){
+        validate(title,content);
+
+        return new Post(title,content);
+    }
+
+    public void update(String title, String content){
+        validate(title,content);
+
         this.title = title;
         this.content = content;
     }
+
+    private static void validate(String title, String content){
+            if(title == null || title.isBlank()){
+                throw new IllegalArgumentException("제목은 필수입니다.");
+            }
+
+            if (content == null || content.isBlank()) {
+            throw new IllegalArgumentException("내용은 필수입니다.");
+        }
+    }
+
 }
