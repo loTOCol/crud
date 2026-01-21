@@ -1,7 +1,7 @@
 package com.example.demo.domain.post.service;
 
-import com.example.demo.domain.post.dto.request.PostCreateRequest;
-import com.example.demo.domain.post.dto.request.PostUpdateRequest;
+//import com.example.demo.domain.post.dto.request.PostCreateRequest;
+//import com.example.demo.domain.post.dto.request.PostUpdateRequest;
 import com.example.demo.domain.post.entity.Post;
 import com.example.demo.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
