@@ -25,10 +25,10 @@ public class Post {
     @Column(name = "post_id", columnDefinition = "BINARY(16)")  // UUID를 MySQL/H2에서 저장할 타입 지정
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
     @CreatedDate
