@@ -36,4 +36,13 @@ public class PostService {
         return postRepository.save(post); // DB에 저장 후 반환
     }
 
+    // 게시글 수정
+    @Transactional
+    public void updatePost(String id, String title, String content){
+        Post post = postRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
+
+        post.update(title,content);
+    }
+
 }

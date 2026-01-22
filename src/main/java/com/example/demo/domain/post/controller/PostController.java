@@ -42,7 +42,12 @@ public class PostController {
         return ResponseEntity.ok(created);
     }
 
-
+    // 게시글 수정
+    @PostMapping("{id}")
+    public ResponseEntity<Post> updatePost(@PathVariable String id, @RequestParam String title, @RequestParam String content){
+        postService.updatePost(id,title,content);
+        return ResponseEntity.noContent().build();
+    }
 
 
 
