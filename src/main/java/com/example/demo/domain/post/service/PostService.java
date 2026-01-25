@@ -24,8 +24,8 @@ public class PostService {
     }
 
     // 단일 게시글 조회
-    public Post findById(String id){
-        return postRepository.findById(UUID.fromString(id))
+    public Post findById(UUID id){
+        return postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
     }
 
@@ -38,11 +38,20 @@ public class PostService {
 
     // 게시글 수정
     @Transactional
-    public void updatePost(String id, String title, String content){
-        Post post = postRepository.findById(UUID.fromString(id))
+    public void updatePost(UUID id, String title, String content){
+        Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
 
         post.update(title,content);
+    }
+
+    // 게시글 삭제
+    @Transactional
+    public void deletePost(UUID id){
+        if(!postRepository.existsById(id)){
+            throw new IllegalArgumentException("게시글을 찾을 수 없습니다.");
+        }
+        postRepository.deleteById(id);
     }
 
 }
