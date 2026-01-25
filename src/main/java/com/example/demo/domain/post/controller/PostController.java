@@ -2,9 +2,11 @@ package com.example.demo.domain.post.controller;
 
 //import com.example.demo.domain.post.dto.request.PostCreateRequest;
 //import com.example.demo.domain.post.dto.request.PostUpdateRequest;
+import com.example.demo.domain.post.dto.request.PostCreateRequest;
 import com.example.demo.domain.post.dto.response.PostResponse;
 import com.example.demo.domain.post.entity.Post;
 import com.example.demo.domain.post.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,32 +25,41 @@ public class PostController {
 
     // 전체 게시글 조회
     @GetMapping
-    public ResponseEntity<List<Post>> getAllPosts(){
-        List<Post> posts = postService.findAll();
-        return ResponseEntity.ok(posts);
+    public ResponseEntity<List<PostResponse>> getAllPosts(){
+        List<PostResponse> responses = postService.findAll()
+                .stream()
+                .map(PostResponse::from)
+                .toList();
+        return ResponseEntity.ok(responses);
     }
 
     // 단일 게시글 조회
     @GetMapping("/{id}")
-    public ResponseEntity<Post> getPost(@PathVariable String id){
+    public ResponseEntity<PostResponse> getPost(@PathVariable UUID id){
         Post post = postService.findById(id);
-        return ResponseEntity.ok(post);
+        return ResponseEntity.ok(PostResponse.from(post));
     }
 
     // 게시글 생성
     @PostMapping
-    public ResponseEntity<Post> createPost(@RequestBody Post postRequest){
-        Post created = postService.createPost(postRequest.getTitle(),postRequest.getContent());
-        return ResponseEntity.ok(created);
+    public ResponseEntity<PostResponse> createPost(@RequestBody @Valid PostCreateRequest request){
+        Post post = postService.createPost(request.title(),request.content());
+        return ResponseEntity.ok(PostResponse.from(post));
     }
 
     // 게시글 수정
-    @PostMapping("{id}")
-    public ResponseEntity<Post> updatePost(@PathVariable String id, @RequestParam String title, @RequestParam String content){
-        postService.updatePost(id,title,content);
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updatePost(@PathVariable UUID id, @RequestBody @Valid PostCreateRequest request){
+        postService.updatePost(id, request.title(), request.content());
         return ResponseEntity.noContent().build();
     }
 
+    // 게시글 삭제
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePost(@PathVariable UUID id){
+        postService.deletePost(id);
+        return  ResponseEntity.noContent().build();
+    }
 
 
 }

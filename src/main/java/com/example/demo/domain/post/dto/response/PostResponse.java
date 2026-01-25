@@ -13,8 +13,8 @@ public record PostResponse(
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
-    public PostResponse(Post post){
-        this(
+    public static PostResponse from(Post post){
+        return new PostResponse(
                 post.getId(),
                 post.getTitle(),
                 post.getContent(),
