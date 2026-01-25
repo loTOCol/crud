@@ -1,0 +1,13 @@
+name: actions
+on:
+  push:
+    branches:
+      - main
+jobs:
+  hello1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test
+        run: echo "TEST"
+      - name: sayMyName
+        run: echo "${{ github.actor }}"
