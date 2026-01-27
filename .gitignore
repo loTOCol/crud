@@ -4,7 +4,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 
 # IDE
-.idea/
+.idea
 *.iml
 *.iws
 *.ipr
@@ -31,3 +31,4 @@ DEPLOY.md
 
 ### custom ###
 src/main/resources/application-secret.yml
+.terraform
